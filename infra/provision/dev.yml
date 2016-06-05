@@ -1,0 +1,6 @@
+- name: Service discovery prototype 
+  hosts: all
+  sudo: yes
+  roles: 
+    - docker
+    - miscellaneous

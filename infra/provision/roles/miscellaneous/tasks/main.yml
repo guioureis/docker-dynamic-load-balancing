@@ -1,0 +1,6 @@
+---
+- name: install Git
+  apt: name=git-svn state=present
+
+- name: install oh my zsh
+  apt: name=zsh state=present
