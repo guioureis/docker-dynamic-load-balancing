@@ -1,0 +1,6 @@
+{
+  "node_name": "consulserver",
+  "datacenter": "local",
+  "bootstrap": true,
+  "ui": true
+}
