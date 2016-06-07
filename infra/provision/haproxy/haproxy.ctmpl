@@ -1,0 +1,29 @@
+global
+    debug
+    stats timeout 30s
+    maxconn 4097
+
+defaults
+    mode http
+    timeout connect 5000ms
+    timeout client  50000ms
+    timeout server  50000ms
+
+frontend http-in
+    bind *:8080
+    use_backend app
+
+backend app
+    mode http
+    balance roundrobin  
+    http-check  disable-on-404
+    http-check  send-state
+    option httpchk HEAD / HTTP/1.1\r\nHost:localhost
+    {{range service "aspnet-hello-world"}}
+    server {{.Name}} {{.Address}}:{{.Port}} check{{end}}
+
+listen stats 
+    bind *:4280
+    stats enable
+    stats uri /
+    stats hide-version
