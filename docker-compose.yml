@@ -1,0 +1,27 @@
+app:
+  image: marcells/aspnet-hello-world
+  ports:
+    - 5004
+
+consul:
+  image: gliderlabs/consul-server
+  container_name: consul
+  volumes:
+    - ./provision/consul:/etc/consul
+  ports:
+    - 8500:8500
+  command: "-config-dir=/etc/consul"
+
+registrator:
+  image: gliderlabs/registrator
+  container_name: registrator
+  volumes:
+    - /var/run/docker.sock:/tmp/docker.sock
+  command: "-resync 120 -retry-attempts -1 -retry-interval 2000 -ip 172.17.0.1 --cleanup consul://172.17.0.1:8500"
+
+haproxy:
+  image: sirile/haproxy
+  net: host
+  volumes:
+    - ./provision/haproxy:/tmp:rw
+  command: "-consul=localhost:8500"
