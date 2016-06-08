@@ -16,9 +16,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provision "ansible" do |ansible|
-	  ansible.playbook = "infra/provision/dev.yml"
+	  ansible.playbook = "provision/dev.yml"
   end
   
   # fix for zsh inside vagrant box
-  config.vm.provision "shell", path: "infra/provision/fixVagrantZsh.sh"
+  config.vm.provision "shell", path: "provision/fixVagrantZsh.sh"
 end
